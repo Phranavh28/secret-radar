@@ -1,0 +1,7 @@
+- id: secret-radar
+  name: Secret Radar
+  description: Block a commit that would leak an API key or secret
+  entry: python -m secretradar scan
+  args: ["--fail-on", "high"]
+  language: python
+  pass_filenames: true

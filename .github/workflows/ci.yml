@@ -1,0 +1,26 @@
+name: Secret Radar CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-selfscan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run the test suite
+        run: pytest -v
+
+      - name: Scan this repo for secrets (ignore the test fixtures)
+        run: |
+          python -m secretradar scan secretradar --fail-on high
+          python -m secretradar scan README.md --fail-on high
